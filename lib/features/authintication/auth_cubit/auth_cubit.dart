@@ -30,10 +30,10 @@ class AuthCubit extends Cubit<AuthState> {
     );
     var responseBody = jsonDecode(response.body);
     if (responseBody['status'] == true) {
-      debugPrint('User registered successfully and his data is $responseBody');
+      print('User registered successfully and his data is $responseBody');
       emit(RegisterSuccessState());
     } else {
-      debugPrint(responseBody);
+      print(responseBody);
       emit(RegisterFailureState(message: responseBody['message']));
     }
   }
@@ -54,10 +54,10 @@ class AuthCubit extends Cubit<AuthState> {
     );
     var responseBody = jsonDecode(response.body);
     if (responseBody['status'] == true) {
-      debugPrint('User logged in successfully and his data is $responseBody');
+      print('User logged in successfully and his data is $responseBody');
       emit(LoginSuccessState());
     } else {
-      debugPrint(responseBody);
+      print(responseBody);
       emit(RegisterFailureState(message: responseBody['message']));
     }
   }
