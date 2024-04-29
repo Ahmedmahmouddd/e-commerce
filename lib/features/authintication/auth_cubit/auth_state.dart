@@ -13,3 +13,12 @@ final class RegisterFailureState extends AuthState {
   final String message;
   RegisterFailureState({required this.message});
 }
+
+final class LoginLoadingState extends AuthState {}
+
+final class LoginSuccessState extends AuthState {}
+
+final class LoginFailureState extends AuthState {
+  final String message;
+  LoginFailureState({required this.message});
+}

@@ -1,5 +1,5 @@
 import 'package:ecommerce/features/authintication/auth_cubit/auth_cubit.dart';
-import 'package:ecommerce/features/authintication/sign_up/presentation/widgets/custom_text_form_field.dart';
+import 'package:ecommerce/features/authintication/register/presentation/widgets/custom_text_form_field.dart';
 import 'package:ecommerce/features/home/features/views/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,8 +8,8 @@ class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
 
   static final nameController = TextEditingController();
-  static final emailController = TextEditingController();
   static final phoneController = TextEditingController();
+  static final emailController = TextEditingController();
   static final passwordController = TextEditingController();
   static final formKey = GlobalKey<FormState>();
 
@@ -23,7 +23,11 @@ class RegisterScreen extends StatelessWidget {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => const HomeScreen()));
           } else if (state is RegisterFailureState) {
-            showDialog(context: context, builder: (context) => AlertDialog(content: Text(state.message),));
+            showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                      content: Text(state.message),
+                    ));
           }
         },
         builder: (context, state) {

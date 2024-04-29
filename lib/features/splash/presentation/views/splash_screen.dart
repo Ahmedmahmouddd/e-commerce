@@ -1,4 +1,5 @@
-import 'package:ecommerce/features/authintication/sign_up/presentation/views/register_screen.dart';
+import 'package:ecommerce/features/authintication/login/presentation/views/login_screen.dart';
+import 'package:ecommerce/features/authintication/register/presentation/views/register_screen.dart';
 // import 'package:ecommerce/features/home/features/views/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return const RegisterScreen();
+        return const LoginScreen();
       }));
     });
     super.initState();
