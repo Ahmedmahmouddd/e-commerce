@@ -27,7 +27,7 @@ class LoginScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const HomeScreen()));
             } else if (state is LoginFailureState) {
               ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text('Something')));
+                  .showSnackBar(SnackBar(content: Text(state.message)));
             }
           },
           builder: (context, state) {
@@ -58,15 +58,17 @@ class LoginScreen extends StatelessWidget {
                               topLeft: Radius.circular(30),
                               topRight: Radius.circular(30))),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+                          const SizedBox(height: 30),
                           const Text(
                             'LOGIN',
                             style: TextStyle(
                                 fontSize: 32,
-                                color: Colors.white,
+                                color: Colors.black54,
                                 fontWeight: FontWeight.w600),
                           ),
+                          const SizedBox(height: 20),
                           CustomTextFormField(
                               hint: 'UserName', controller: emailController),
                           CustomTextFormField(
@@ -96,6 +98,23 @@ class LoginScreen extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+                          ),
+                          const SizedBox(height: 10),
+                          RichText(
+                            text: const TextSpan(children: [
+                              TextSpan(
+                                  text: 'Don\'t have an account? ',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 18,
+                                      color: Colors.black54)),
+                              TextSpan(
+                                  text: 'Register',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color: Colors.black54))
+                            ]),
                           )
                         ],
                       ),
