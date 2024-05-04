@@ -1,16 +1,18 @@
-import 'package:ecommerce/features/authintication/auth_cubit/auth_cubit.dart';
-import 'package:ecommerce/features/authintication/register/presentation/views/register_screen.dart';
-import 'package:ecommerce/features/authintication/register/presentation/widgets/custom_text_form_field.dart';
+import 'package:ecommerce/features/authintication/data/auth_cubit/auth_cubit.dart';
+import 'package:ecommerce/features/authintication/presentation/views/login_screen.dart';
+import 'package:ecommerce/features/authintication/presentation/widgets/custom_text_form_field.dart';
 import 'package:ecommerce/features/home/features/views/home_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({super.key});
 
+  static final nameController = TextEditingController();
   static final emailController = TextEditingController();
   static final passwordController = TextEditingController();
+  static final phoneController = TextEditingController();
   static final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -24,31 +26,33 @@ class LoginScreen extends StatelessWidget {
                 fit: BoxFit.cover)),
         child: BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
-            if (state is LoginSuccessState) {
+            if (state is RegisterSuccessState) {
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => const HomeScreen()),
                   (route) => false);
-            } else if (state is LoginFailureState) {
+            } else if (state is RegisterFailureState) {
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(state.message)));
             }
           },
           builder: (context, state) {
             return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
-                    flex: 2,
+                    flex: 1,
                     child: Container(
                         padding: const EdgeInsets.only(bottom: 50),
                         alignment: Alignment.bottomCenter,
                         child: const Text(
-                          'Login to continue process',
+                          'Register to continue process',
                           style: TextStyle(
                               fontSize: 24,
                               color: Colors.white,
                               fontWeight: FontWeight.w600),
                         ))),
+                const SizedBox(height: 20),
                 Expanded(
                   flex: 3,
                   child: Form(
@@ -67,7 +71,7 @@ class LoginScreen extends StatelessWidget {
                           children: [
                             const SizedBox(height: 30),
                             const Text(
-                              'LOGIN',
+                              'REGISTER',
                               style: TextStyle(
                                   fontSize: 32,
                                   color: Colors.black54,
@@ -75,29 +79,42 @@ class LoginScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 20),
                             CustomTextFormField(
-                                hint: 'UserName', controller: emailController),
+                              hint: 'Name',
+                              controller: nameController,
+                            ),
                             CustomTextFormField(
-                                isSecure: true,
-                                hint: 'Password',
-                                controller: passwordController),
+                              hint: 'Email',
+                              controller: emailController,
+                            ),
+                            CustomTextFormField(
+                                hint: 'Number', controller: phoneController),
+                            CustomTextFormField(
+                              hint: 'Password',
+                              controller: passwordController,
+                              isSecure: true,
+                            ),
                             const SizedBox(height: 6),
                             MaterialButton(
                               onPressed: () {
                                 if (formKey.currentState!.validate()) {
-                                  BlocProvider.of<AuthCubit>(context).login(
-                                      email: emailController.text,
-                                      password: passwordController.text);
+                                  BlocProvider.of<AuthCubit>(context).register(
+                                    name: nameController.text,
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                    phone: phoneController.text,
+                                  );
                                 }
                               },
                               minWidth: double.infinity,
                               padding: const EdgeInsets.symmetric(vertical: 22),
                               color: Colors.grey[800],
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12)),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                               child: Text(
-                                state is LoginLoadingState
+                                state is RegisterLoadingState
                                     ? 'Loading ...'
-                                    : 'Login',
+                                    : 'Register',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
@@ -109,13 +126,13 @@ class LoginScreen extends StatelessWidget {
                             RichText(
                               text: TextSpan(children: [
                                 const TextSpan(
-                                    text: 'Don\'t have an account? ',
+                                    text: 'Already have an account? ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 18,
                                         color: Colors.black54)),
                                 TextSpan(
-                                  text: 'Register',
+                                  text: 'Login',
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
@@ -127,19 +144,19 @@ class LoginScreen extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  const RegisterScreen()),
+                                                  const LoginScreen()),
                                           (route) => false);
                                     },
                                 ),
                               ]),
                             ),
-                            const SizedBox(height: 20)
+                            const SizedBox(height: 20),
                           ],
                         ),
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             );
           },

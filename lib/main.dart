@@ -1,5 +1,5 @@
 import 'package:ecommerce/core/cache_data/cache_data.dart';
-import 'package:ecommerce/features/authintication/auth_cubit/auth_cubit.dart';
+import 'package:ecommerce/features/authintication/data/auth_cubit/auth_cubit.dart';
 import 'package:ecommerce/features/splash/presentation/views/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

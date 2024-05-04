@@ -1,5 +1,4 @@
-import 'package:ecommerce/core/cache_data/cache_data.dart';
-import 'package:ecommerce/features/authintication/login/presentation/views/login_screen.dart';
+import 'package:ecommerce/features/authintication/presentation/views/login_screen.dart';
 import 'package:ecommerce/features/home/features/views/home_screen.dart';
 // import 'package:ecommerce/features/home/features/views/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -22,15 +21,15 @@ class _SplashScreenState extends State<SplashScreen> {
       getValidationData().then((_) {
         token == null
             ? Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) =>const LoginScreen()),
-              (route) => false, 
-            )
-          : Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) =>const HomeScreen()),
-              (route) => false, 
-            );
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+                (route) => false,
+              )
+            : Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()),
+                (route) => false,
+              );
       });
     });
   }
@@ -42,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
     setState(() {
       token = obtainedToken;
     });
-    print('token is $token');
+    print('Token is $obtainedToken');
   }
 
   @override
