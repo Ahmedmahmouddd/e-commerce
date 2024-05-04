@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:ecommerce/core/cache_data/cache_data.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:meta/meta.dart';
@@ -31,6 +32,7 @@ class AuthCubit extends Cubit<AuthState> {
     var responseBody = jsonDecode(response.body);
     if (responseBody['status'] == true) {
       print('User registered successfully and his data is $responseBody');
+      CacheData.setData('token', responseBody['data']['token']);
       emit(RegisterSuccessState());
     } else {
       print(responseBody);
@@ -55,6 +57,7 @@ class AuthCubit extends Cubit<AuthState> {
     var responseBody = jsonDecode(response.body);
     if (responseBody['status'] == true) {
       print('User logged in successfully and his data is $responseBody');
+      CacheData.setData('token', responseBody['data']['token']);
       emit(LoginSuccessState());
     } else {
       print(responseBody);

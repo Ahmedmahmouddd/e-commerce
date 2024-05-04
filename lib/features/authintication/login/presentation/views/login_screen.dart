@@ -1,6 +1,8 @@
 import 'package:ecommerce/features/authintication/auth_cubit/auth_cubit.dart';
+import 'package:ecommerce/features/authintication/register/presentation/views/register_screen.dart';
 import 'package:ecommerce/features/authintication/register/presentation/widgets/custom_text_form_field.dart';
 import 'package:ecommerce/features/home/features/views/home_screen.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,8 +25,10 @@ class LoginScreen extends StatelessWidget {
         child: BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is LoginSuccessState) {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()));
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                  (route) => false);
             } else if (state is LoginFailureState) {
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(state.message)));
@@ -57,66 +61,81 @@ class LoginScreen extends StatelessWidget {
                           borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(30),
                               topRight: Radius.circular(30))),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 30),
-                          const Text(
-                            'LOGIN',
-                            style: TextStyle(
-                                fontSize: 32,
-                                color: Colors.black54,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          const SizedBox(height: 20),
-                          CustomTextFormField(
-                              hint: 'UserName', controller: emailController),
-                          CustomTextFormField(
-                              isSecure: true,
-                              hint: 'Password',
-                              controller: passwordController),
-                          MaterialButton(
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                BlocProvider.of<AuthCubit>(context).login(
-                                    email: emailController.text,
-                                    password: passwordController.text);
-                              }
-                            },
-                            minWidth: double.infinity,
-                            padding: const EdgeInsets.symmetric(vertical: 22),
-                            color: Colors.grey[800],
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(6)),
-                            child: Text(
-                              state is LoginLoadingState
-                                  ? 'Loading ...'
-                                  : 'Login',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 30),
+                            const Text(
+                              'LOGIN',
+                              style: TextStyle(
+                                  fontSize: 32,
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            const SizedBox(height: 20),
+                            CustomTextFormField(
+                                hint: 'UserName', controller: emailController),
+                            CustomTextFormField(
+                                isSecure: true,
+                                hint: 'Password',
+                                controller: passwordController),
+                            const SizedBox(height: 6),
+                            MaterialButton(
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  BlocProvider.of<AuthCubit>(context).login(
+                                      email: emailController.text,
+                                      password: passwordController.text);
+                                }
+                              },
+                              minWidth: double.infinity,
+                              padding: const EdgeInsets.symmetric(vertical: 22),
+                              color: Colors.grey[800],
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: Text(
+                                state is LoginLoadingState
+                                    ? 'Loading ...'
+                                    : 'Login',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(height: 10),
-                          RichText(
-                            text: const TextSpan(children: [
-                              TextSpan(
-                                  text: 'Don\'t have an account? ',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18,
-                                      color: Colors.black54)),
-                              TextSpan(
+                            const SizedBox(height: 10),
+                            RichText(
+                              text: TextSpan(children: [
+                                const TextSpan(
+                                    text: 'Don\'t have an account? ',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18,
+                                        color: Colors.black54)),
+                                TextSpan(
                                   text: 'Register',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                      color: Colors.black54))
-                            ]),
-                          )
-                        ],
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: Colors.black54,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const RegisterScreen()),
+                                          (route) => false);
+                                    },
+                                ),
+                              ]),
+                            ),
+                            const SizedBox(height: 20)
+                          ],
+                        ),
                       ),
                     ),
                   ),

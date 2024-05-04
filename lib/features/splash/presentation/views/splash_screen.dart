@@ -1,7 +1,11 @@
+import 'package:ecommerce/core/cache_data/cache_data.dart';
 import 'package:ecommerce/features/authintication/login/presentation/views/login_screen.dart';
-import 'package:ecommerce/features/authintication/register/presentation/views/register_screen.dart';
+import 'package:ecommerce/features/home/features/views/home_screen.dart';
 // import 'package:ecommerce/features/home/features/views/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+String? token;
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,12 +17,32 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return const LoginScreen();
-      }));
-    });
     super.initState();
+    Future.delayed(const Duration(seconds: 3), () {
+      getValidationData().then((_) {
+        token == null
+            ? Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) =>const LoginScreen()),
+              (route) => false, 
+            )
+          : Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) =>const HomeScreen()),
+              (route) => false, 
+            );
+      });
+    });
+  }
+
+  Future<void> getValidationData() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var obtainedToken = sharedPreferences.getString('token');
+    setState(() {
+      token = obtainedToken;
+    });
+    print('token is $token');
   }
 
   @override
