@@ -1,19 +1,20 @@
-import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
-import 'package:ecommerce/features/home/data/models/usermodel/user_model.dart';
+import 'package:ecommerce/features/profile/data/models/usermodel/user_model.dart';
 import 'package:ecommerce/features/splash/presentation/views/splash_screen.dart';
-import 'package:http/http.dart%20';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:meta/meta.dart';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
-part 'layout_state.dart';
 
-class LayoutCubit extends Cubit<LayoutState> {
-  LayoutCubit() : super(LayoutInitial());
+part 'profile_state.dart';
+
+class ProfileCubit extends Cubit<ProfileState> {
+  ProfileCubit() : super(ProfileInitial());
 
   UserModel? userModel;
   void getUserData() async {
-    emit(LayoutLoading());
+    emit(ProfileLoading());
     Response response = await http.get(
       Uri.parse('https://student.valuxapps.com/api/profile'),
       headers: {'Authorization': token!, 'lang': 'en'},
@@ -21,11 +22,9 @@ class LayoutCubit extends Cubit<LayoutState> {
     var responseData = jsonDecode(response.body);
     if (responseData['status'] == true) {
       userModel = UserModel.fromMap(responseData);
-      print('response is $responseData');
-      emit(LayoutSuccess());
+      emit(ProfileSuccess());
     } else {
-      print('response is $responseData');
-      emit(LayoutFailure(message: responseData['message']));
+      emit(ProfileFailure(message: responseData['message']));
     }
   }
 }

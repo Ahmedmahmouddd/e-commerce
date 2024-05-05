@@ -1,5 +1,5 @@
 import 'package:ecommerce/features/authintication/presentation/views/login_screen.dart';
-import 'package:ecommerce/features/home/features/views/home_screen.dart';
+import 'package:ecommerce/features/layout/features/views/layout_screen.dart';
 // import 'package:ecommerce/features/home/features/views/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
               )
             : Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()),
+                MaterialPageRoute(builder: (context) => const LayoutScreen()),
                 (route) => false,
               );
       });
@@ -41,7 +41,6 @@ class _SplashScreenState extends State<SplashScreen> {
     setState(() {
       token = obtainedToken;
     });
-    print('Token is $obtainedToken');
   }
 
   @override

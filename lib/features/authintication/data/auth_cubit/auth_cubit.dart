@@ -1,3 +1,5 @@
+// ignore_for_file: 
+
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
@@ -31,11 +33,9 @@ class AuthCubit extends Cubit<AuthState> {
     );
     var responseBody = jsonDecode(response.body);
     if (responseBody['status'] == true) {
-      print('User registered successfully and his data is $responseBody');
       CacheData.setData('token', responseBody['data']['token']);
       emit(RegisterSuccessState());
     } else {
-      print(responseBody);
       emit(RegisterFailureState(message: responseBody['message']));
     }
   }
@@ -56,11 +56,9 @@ class AuthCubit extends Cubit<AuthState> {
     );
     var responseBody = jsonDecode(response.body);
     if (responseBody['status'] == true) {
-      print('User logged in successfully and his data is $responseBody');
       CacheData.setData('token', responseBody['data']['token']);
       emit(LoginSuccessState());
     } else {
-      print(responseBody);
       emit(LoginFailureState(message: responseBody['message']));
     }
   }
