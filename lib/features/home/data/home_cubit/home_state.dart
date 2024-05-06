@@ -5,7 +5,7 @@ part of 'home_cubit.dart';
 @immutable
 sealed class HomeState {}
 
-final class getBannersInitial extends HomeState {}
+final class HomeInitial extends HomeState {}
 
 final class getBannersLoading extends HomeState {}
 
@@ -16,11 +16,16 @@ final class getBannersFailure extends HomeState {
   getBannersFailure({required this.message});
 }
 
-final class getCategoriesLoading extends HomeState {}
-
 final class getCategoriesSuccess extends HomeState {}
 
 final class getCategoriesFailure extends HomeState {
   final String message;
   getCategoriesFailure({required this.message});
+}
+
+final class getProductsSuccess extends HomeState {}
+
+final class getProductsFailure extends HomeState {
+  final String message;
+  getProductsFailure({required this.message});
 }

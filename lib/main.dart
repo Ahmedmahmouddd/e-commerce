@@ -23,7 +23,8 @@ class ECommerceApp extends StatelessWidget {
           BlocProvider(
               create: (context) => HomeCubit()
                 ..getBannersData()
-                ..getCategoriesData()),
+                ..getCategoriesData()
+                ..getProductsData()),
           BlocProvider(create: (context) => LayoutCubit()),
         ],
         child: const MaterialApp(
