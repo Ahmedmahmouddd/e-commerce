@@ -32,9 +32,10 @@ class HomeCubit extends Cubit<HomeState> {
 
   List<CategoryModel> categories = [];
   void getCategoriesData() async {
+    emit(getProductsLoading());
     Response response = await http.get(
-      Uri.parse('https://student.valuxapps.com/api/categories'),
-    );
+        Uri.parse('https://student.valuxapps.com/api/categories'),
+        headers: {'lang': 'en'});
     final responseBody = jsonDecode(response.body);
 
     if (responseBody['status'] == true) {
@@ -62,5 +63,14 @@ class HomeCubit extends Cubit<HomeState> {
     } else {
       emit(getProductsFailure(message: responseBody['message']));
     }
+  }
+
+  List<ProductModel> filteredProducts = [];
+  void filterProducts({required String input}) {
+    filteredProducts = products
+        .where((element) =>
+            element.name!.toLowerCase().startsWith(input.toLowerCase()))
+        .toList();
+    emit(geFilteredProductsSuccess());
   }
 }

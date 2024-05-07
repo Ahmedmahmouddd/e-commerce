@@ -5,9 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
   static final pageController = PageController();
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<HomeCubit>(context);
@@ -15,28 +21,39 @@ class HomeScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
+          appBar: AppBar(
+            title: const Text('Home'),
+          ),
           body: ListView(
             shrinkWrap: true,
             children: [
-              TextFormField(
-                decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.search),
-                    hintText: 'Search',
-                    suffixIcon: const Icon(Icons.clear),
-                    contentPadding: const EdgeInsets.all(0),
-                    fillColor: Colors.grey.withOpacity(0.3),
-                    filled: true,
-                    border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(40)))),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  onChanged: (value) {
+                    setState(() {
+                      cubit.filterProducts(input: value);
+                    });
+                  },
+                  decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.search),
+                      hintText: 'Search',
+                      suffixIcon: const Icon(Icons.clear),
+                      contentPadding: const EdgeInsets.all(0),
+                      fillColor: Colors.grey.withOpacity(0.3),
+                      filled: true,
+                      border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(40)))),
+                ),
               ),
               const SizedBox(height: 2),
               cubit.banners.isEmpty
                   ? const Center(child: CupertinoActivityIndicator())
                   : HomeCardsPageView(
-                      pageController: pageController, cubit: cubit),
+                      pageController: HomeScreen.pageController, cubit: cubit),
               Center(
                 child: HomePageIndicator(
-                    pageController: pageController, cubit: cubit),
+                    pageController: HomeScreen.pageController, cubit: cubit),
               ),
               const HomeMiddleTitles(
                 title: 'Categories',
@@ -51,15 +68,20 @@ class HomeScreen extends StatelessWidget {
                   ? const Center(child: CupertinoActivityIndicator())
                   : GridView.builder(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: cubit.products.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: cubit.filteredProducts.isEmpty
+                          ? cubit.products.length
+                          : cubit.filteredProducts.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               mainAxisSpacing: 10,
                               crossAxisSpacing: 10),
                       itemBuilder: (context, index) {
-                        return CategoriesContainer(model: cubit.products[index]);
+                        return CategoriesContainer(
+                            model: cubit.filteredProducts.isEmpty
+                                ? cubit.products[index]
+                                : cubit.filteredProducts[index]);
                       },
                     )
             ],

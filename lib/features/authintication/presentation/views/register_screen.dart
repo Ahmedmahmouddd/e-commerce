@@ -1,7 +1,7 @@
 import 'package:ecommerce/features/authintication/data/auth_cubit/auth_cubit.dart';
 import 'package:ecommerce/features/authintication/presentation/views/login_screen.dart';
 import 'package:ecommerce/features/authintication/presentation/widgets/custom_text_form_field.dart';
-import 'package:ecommerce/features/profile/features/views/profile_screen.dart';
+import 'package:ecommerce/features/layout/features/views/layout_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,8 +29,7 @@ class RegisterScreen extends StatelessWidget {
             if (state is RegisterSuccessState) {
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const ProfileScreen()),
+                  MaterialPageRoute(builder: (context) => const LayoutScreen()),
                   (route) => false);
             } else if (state is RegisterFailureState) {
               ScaffoldMessenger.of(context)

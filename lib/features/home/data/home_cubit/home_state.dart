@@ -23,9 +23,14 @@ final class getCategoriesFailure extends HomeState {
   getCategoriesFailure({required this.message});
 }
 
+final class getProductsLoading extends HomeState {}
+
 final class getProductsSuccess extends HomeState {}
 
 final class getProductsFailure extends HomeState {
   final String message;
   getProductsFailure({required this.message});
 }
+
+
+final class geFilteredProductsSuccess extends HomeState {}
